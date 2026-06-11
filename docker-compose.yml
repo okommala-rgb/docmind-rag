@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  rag-app:
+    build: .
+    container_name: docmind-rag
+    ports:
+      - "8501:8501"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - CHROMA_PERSIST_DIR=/app/vectorstore
+      - UPLOAD_DIR=/app/uploads
+      - LOG_LEVEL=INFO
+    volumes:
+      - rag_vectorstore:/app/vectorstore
+      - rag_uploads:/app/uploads
+      - rag_logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  rag_vectorstore:
+  rag_uploads:
+  rag_logs:
