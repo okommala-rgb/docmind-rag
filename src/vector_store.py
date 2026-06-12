@@ -108,8 +108,15 @@ class VectorStore:
         batch_size: int = 100,
     ) -> int:
         """
-        Add chunks to the vector store in batches.
-        Returns the number of chunks successfully added.
+        Add document chunks to the vector store in batches.
+        
+        Args:
+            chunks: List of Document objects to index.
+            progress_callback: Optional callback function for tracking progress.
+            batch_size: Number of chunks per batch (default: 100).
+            
+        Returns:
+            Number of chunks successfully added to the store.
         """
         if not chunks:
             return 0
